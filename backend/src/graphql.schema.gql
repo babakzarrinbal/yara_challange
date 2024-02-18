@@ -1,0 +1,79 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  id: ID!
+  name: String!
+  description: String!
+  isHazardous: Boolean!
+  size: Int!
+}
+
+type Warehouse {
+  id: ID!
+  name: String!
+  description: String!
+  size: Int!
+}
+
+type Inventory {
+  id: ID!
+  timestamp: DateTime!
+  qty: Int!
+  product: Product!
+  warehouse: Warehouse!
+  type: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  products: [Product!]!
+  product(id: String!): Product!
+  warehouses: [Warehouse!]!
+  warehouse(id: String!): Warehouse!
+  inventories: [Inventory!]!
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: String!): Product!
+  createWarehouse(createWarehouseInput: CreateWarehouseInput!): Warehouse!
+  updateWarehouse(updateWarehouseInput: UpdateWarehouseInput!): Warehouse!
+  removeWarehouse(id: String!): Warehouse!
+  importAction(productId: String!, warehouseId: String!, qty: Float!): Inventory!
+  exportAction(productId: String!, warehouseId: String!, qty: Float!): Inventory!
+}
+
+input CreateProductInput {
+  name: String!
+  description: String = ""
+  size: Int!
+  isHazardous: Boolean = false
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
+  size: Int
+  isHazardous: Boolean
+  id: String!
+}
+
+input CreateWarehouseInput {
+  name: String = ""
+  description: String = ""
+  size: Int!
+}
+
+input UpdateWarehouseInput {
+  name: String
+  description: String
+  size: Int
+  id: String!
+}
