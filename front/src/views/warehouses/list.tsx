@@ -1,45 +1,44 @@
 import { useQuery, useMutation } from "@apollo/client";
 import * as gql from "../../graphql";
-import { Product, Products } from "../../types/products";
-import CreateProduct from "./create";
+import { Warehouse, Warehouses } from "../../types/warehouses";
+import CreateWarehouse from "./create";
 
-const ProductsList = () => {
-  const { data, error, refetch } = useQuery<Products>(gql.products.getProducts);
-  const [removeProduct] = useMutation(gql.products.removeProduct, {
+const WarehousesList = () => {
+  const { data, error, refetch } = useQuery<Warehouses>(
+    gql.warehouses.getWarehouses
+  );
+  const [removeWarehouse] = useMutation(gql.warehouses.removeWarehouse, {
     onCompleted: () => {
       refetch();
     },
   });
   return (
     <div className="container">
-      <CreateProduct refetch={refetch} />
+      <CreateWarehouse refetch={refetch} />
       {error ? (
-        <p>Error loading products.</p>
+        <p>Error loading warehouses.</p>
       ) : (
         <div className="row mt-3 ">
-          {data?.products?.map((product: Product) => (
-            <div key={product.id} className="col-sm-12  mb-4 d-flex">
+          {data?.warehouses?.map((warehouse: Warehouse) => (
+            <div key={warehouse.id} className="col-sm-12  mb-4 d-flex">
               <div className="card flex-fill ">
                 <button
                   className="btn btn-danger position-absolute top-0 end-0 m-2"
                   style={{ fontSize: "1.5rem" }}
                   onClick={() =>
-                    removeProduct({ variables: { id: product.id } })
+                    removeWarehouse({ variables: { id: warehouse.id } })
                   }
                 >
                   &times;
                 </button>
                 <div className="card-body text-start">
                   <h5 className="card-title text-start">
-                    Name: {product.name}
+                    Name: {warehouse.name}
                   </h5>
                   <h6 className="card-title ">
-                    Description: {product.description}
+                    Description: {warehouse.description}
                   </h6>
-                  <p className="card-text ">
-                    Size: {product.size} <br />
-                    {product.isHazardous ? "Hazardous" : "Non-hazardous"}
-                  </p>
+                  <p className="card-text ">Size: {warehouse.size}</p>
                 </div>
               </div>
             </div>
@@ -50,4 +49,4 @@ const ProductsList = () => {
   );
 };
 
-export default ProductsList;
+export default WarehousesList;

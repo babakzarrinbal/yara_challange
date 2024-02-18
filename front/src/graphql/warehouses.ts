@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 export const createWarehouse = gql`
-  mutation createWarehouse($name: String!, $description: String!, $size: Int!) {
-    createProduct(name: $name, description: $description, size: $size) {
+  mutation createWarehouse($createWarehouseInput: CreateWarehouseInput!) {
+    createWarehouse(createWarehouseInput: $createWarehouseInput) {
       id
       name
       description
@@ -11,12 +11,20 @@ export const createWarehouse = gql`
 `;
 
 export const getWarehouses = gql`
-  {
+  query GetWarehouses {
     warehouses {
       id
       name
       description
       size
+    }
+  }
+`;
+
+export const removeWarehouse = gql`
+  mutation removeWarehouse($id: String!) {
+    removeWarehouse(id: $id) {
+      name
     }
   }
 `;
